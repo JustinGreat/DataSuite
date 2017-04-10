@@ -24,5 +24,6 @@ def main():
     d=np.array([[19.0,24.0],[34.0,10.0]])
     x=Tb4Ana(d)
     print x.processData()
+    print chisquare(f_obs=[1.0,2.0,3.0])
 if __name__=="__main__":
     main()
