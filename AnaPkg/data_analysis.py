@@ -1,6 +1,31 @@
 #encoding=utf-8
 import pandas as pd
 import numpy as np
+from matplotlib import cm
+from matplotlib import axes
+from matplotlib import pyplot as plt
+#Draw heatmap
+def draw_heatmap(data,xlabels,ylabels):
+    cmap = cm.Blues
+    figure=plt.figure(facecolor='w')
+    ax=figure.add_subplot(1,1,1)#,position=[0.1,0.15,0.8,0.8])
+    if ylabels:
+        ax.set_yticks(range(len(ylabels)))
+        ax.set_yticklabels(ylabels)
+    if xlabels:
+        ax.set_xticks(range(len(xlabels)))
+        ax.set_xticklabels(xlabels)
+    vmax=data[0][0]
+    vmin=data[0][0]
+    for i in data:
+        for j in i:
+            if j>vmax:
+                vmax=j
+            if j<vmin:
+                vmin=j
+    map=ax.imshow(data,interpolation='nearest',cmap=cmap,vmin=0,vmax=1)
+    cb=plt.colorbar(mappable=map,cax=None,ax=None,shrink=0.5)
+    plt.show()
 class DataAnaClass():
     def preProcess(self):
         pass

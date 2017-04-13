@@ -19,6 +19,7 @@ class AprNode(object):
         self.s=set(node)
         self.size=len(self.s)
         self.lnk_nodes=dict()
+        self.num=0
     def __hash__(self):
         return hash("__".join(sorted([str(itm) for itm in list(self.s)])))
     def __eq__(self, other):
@@ -70,17 +71,24 @@ class AprBlk():
                 freq_items.append((self.apr_layers[layer].d[node].s,self.apr_layers[layer].d[node].num))
         freq_items.sort(key=lambda x:x[1],reverse = True)
         return freq_items[:hd]
-    def getLowConf(self,thd=1,hd=1):
-        low_confidence=[]
+
+    def getConf(self,low=True, h_thd=10, l_thd=1, hd=1):
+        confidence = []
         for layer in self.apr_layers:
             for node in self.apr_layers[layer].d:
-                if self.apr_layers[layer].d[node].num<thd:
+                if self.apr_layers[layer].d[node].num < h_thd:
                     continue
                 for lnk_node in node.lnk_nodes:
-                    conf=float(lnk_node.num)/float(node.num)
-                    low_confidence.append([node.s,node.num,lnk_node.s,lnk_node.num,conf])
-        low_confidence.sort(key=lambda x:x[4])
-        return low_confidence[:hd]
+                    if lnk_node.num < l_thd:
+                        continue
+                    conf = float(lnk_node.num) / float(node.num)
+                    confidence.append([node.s, node.num, lnk_node.s, lnk_node.num, conf])
+
+        confidence.sort(key=lambda x: x[4])
+        if low:
+            return confidence[:hd]
+        else:
+            return confidence[-hd::-1]
 
 class AssctAnaClass(DataAnaClass):
     data=[]
@@ -89,10 +97,12 @@ class AssctAnaClass(DataAnaClass):
         self.data=data
         self.apr_blk=AprBlk(data)
     def processData(self,cmd,thd=1,hd=1):
-        if not cmd in ["freq_item","low_conf"]:
+        if not cmd in ["freq_item","low_conf","high_conf"]:
             print("CMD Error!")
             return
         if cmd=="freq_item":
             return self.apr_blk.getFreqItems(thd=thd,hd=hd)
         if cmd=="low_conf":
-            return self.apr_blk.getLowConf(thd=thd,hd=hd)
+            return self.apr_blk.getConf(h_thd=thd,l_thd=thd,hd=hd)
+        if cmd=="high_conf":
+            return self.apr_blk.getConf(low=False,h_thd=thd,l_thd=thd)
