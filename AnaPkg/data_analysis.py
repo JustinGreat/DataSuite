@@ -5,7 +5,15 @@ from matplotlib import cm
 from matplotlib import axes
 from matplotlib import pyplot as plt
 #Draw heatmap
-def draw_heatmap(data,xlabels,ylabels):
+'''
+#data:Input data
+#xlablels:List, xlabels of the data
+#ylablels:List, ylabels of the data
+#vmin:The min value of the heatmap
+#vmax:The max value of the heatmap, if vmax equals None,the max
+#   and the min values would base on the data
+'''
+def draw_heatmap(data,xlabels,ylabels,vmin=0,vmax=1):
     cmap = cm.Blues
     figure=plt.figure(facecolor='w')
     ax=figure.add_subplot(1,1,1)#,position=[0.1,0.15,0.8,0.8])
@@ -15,17 +23,19 @@ def draw_heatmap(data,xlabels,ylabels):
     if xlabels:
         ax.set_xticks(range(len(xlabels)))
         ax.set_xticklabels(xlabels)
-    vmax=data[0][0]
-    vmin=data[0][0]
-    for i in data:
-        for j in i:
-            if j>vmax:
-                vmax=j
-            if j<vmin:
-                vmin=j
-    map=ax.imshow(data,interpolation='nearest',cmap=cmap,vmin=0,vmax=1)
+    if not vmax:
+        vmax=data[0][0]
+        vmin=data[0][0]
+        for i in data:
+            for j in i:
+                if j>vmax:
+                    vmax=j
+                if j<vmin:
+                    vmin=j
+    map=ax.imshow(data,interpolation='nearest',cmap=cmap,vmin=vmin,vmax=vmax)
     cb=plt.colorbar(mappable=map,cax=None,ax=None,shrink=0.5)
     plt.show()
+
 class DataAnaClass():
     def preProcess(self):
         pass
@@ -35,6 +45,7 @@ class DataAnaClass():
         pass
     def evaluateRes(self):
         pass
+#Pandas Expand
 class PdExpand():
     ds=""
     def __init__(self,data):
