@@ -1,0 +1,31 @@
+#1  Missing data handling
+#2  Linear & Optimizer
+#3  Preprocessing
+#4  Modeling
+#5  Evaluating
+
+#1  Missing data handling
+DataFrame.dropna(axis=0, how='any'/'how', thresh=None, subset=None, inplace=False)
+DataFrame.fillna(value=None, method=None, axis=None, inplace=False, limit=None, downcast=None, **kwargs)
+DataFrame.replace(to_replace=None, value=None, inplace=False, limit=None, regex=False, method='pad', axis=None)
+Series.interpolate(method='linear' /‘time’/‘index’/‘values’/ ‘nearest’/'zero'/‘slinear’/‘quadratic’/‘cubic’/‘barycentric’/‘krogh’/‘polynomial’/‘spline’/‘piecewise_polynomial’/‘from_derivatives’/‘pchip’/'akima', axis=0, limit=None, inplace=False, limit_direction='forward', downcast=None, **kwargs)
+
+#2  Linear & Optimizer
+Refer to the Tutorial Pkg
+
+#3  Preprocessing
+#
+scaler = preprocessing.StandardScaler()
+X_scaled = scaler.fit_transform(X)
+#
+min_max_scaler = preprocessing.MinMaxScaler()
+X_minMax = min_max_scaler.fit_transform(X)
+#
+binarizer = preprocessing.Binarizer(threshold=1.1)
+binarizer.transform(X)
+#
+LabelBinarizer().fit_transform(testdata['pet'])
+
+#4  Modeling
+#5  Evaluating
+Refer to the SCIKIT_PAGE
