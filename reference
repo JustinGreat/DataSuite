@@ -25,6 +25,8 @@ binarizer = preprocessing.Binarizer(threshold=1.1)
 binarizer.transform(X)
 #
 LabelBinarizer().fit_transform(testdata['pet'])
+#
+sns.boxplot(data, names=['left', 'right'], whis=np.inf, color='indianred')
 
 #4  Modeling
 #5  Evaluating

@@ -4,9 +4,9 @@ from pylab import *
 import statsmodels.api as sm
 from statsmodels.graphics.api import qqplot
 class TimeSeqClass(DataAnaClass):
-    data=""
-    arma_mod=""
     def __init__(self,data):
+        self.data=""
+        self.arma_mod=""
         if not isinstance(data, pd.core.series.Series):
             print("WARNING:Data type is not Series.")
         self.data=data
